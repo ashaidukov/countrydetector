@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Find out country by phone number</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+</head>
+<body>
+
+<form action="/countryByPhone" id="searchForm">
+    <input type="text" name="phone" placeholder="Enter phone number">
+    <input type="submit" value="Get country by phone">
+</form>
+<!-- the result of the search will be rendered inside this div -->
+<div id="result"></div>
+
+<script>
+    // Attach a submit handler to the form
+    $( "#searchForm" ).submit(function( event ) {
+
+        // Stop form from submitting normally
+        event.preventDefault();
+
+        // Get some values from elements on the page:
+        var $form = $( this ),
+            phoneNumber = $form.find( "input[name='phone']" ).val(),
+            url = $form.attr( "action" );
+
+        // Send the data using post
+        var posting = $.ajax({
+            url: url,
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({ "phoneNumber": phoneNumber }),
+            success: function( data ) {
+                console.log(data);
+                var content = "";
+                if (data.phoneNumber != null) {
+                    if (data.phoneNumber.length > 0) {
+                        content = "The phone number: " + data.phoneNumber + " is used in the " + data.countryNames.join(", ");
+                    } else {
+                        content = "The phone number: " + data.phoneNumber + " is not used in any country";
+                    }
+                }
+                $( "#result" ).empty().append( content );
+            },
+            error: function(xhr) {
+                $( "#result" ).empty().append( "Something went wrong..." + xhr.statusText);
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+###
+POST http://localhost:8080/countryByPhone
+Content-Type: application/json
+
+{
+  "phoneNumber" : "1 939 1112222"
+}

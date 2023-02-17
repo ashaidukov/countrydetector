@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/countrydetector
+    username: ${MYSQL_USER:neotech}
+    password: ${MYSQL_PASSWORD:1111}
+
+#spring.jpa.show-sql: true
