@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.neotech.countrydetector.PhoneNumberUtils.normalizePhoneNumber;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -102,7 +104,7 @@ public class PhoneCodesLoaderService {
             if (pTag.children().get(i).tagName().equals(A_TAG)) {
                 var textInTag = pTag.children().get(i).text();
                 if (textInTag.startsWith("+")) {
-                    code = textInTag.replaceAll("[^\\+0-9]", "");
+                    code = normalizePhoneNumber(textInTag);
                 } else if (textInTag.length() == 2) {
                     country = pTag.children().get(i).attr(TITLE_ATTR);
                     countryCode = textInTag;
@@ -156,7 +158,7 @@ public class PhoneCodesLoaderService {
                         .build());
             }
             return PhonePrefixCode.builder()
-                    .prefixCode(hrefs.get(0).text().replaceAll("[^\\+0-9]", ""))
+                    .prefixCode(normalizePhoneNumber(hrefs.get(0).text()))
                     .countries(countries)
                     .build();
         }

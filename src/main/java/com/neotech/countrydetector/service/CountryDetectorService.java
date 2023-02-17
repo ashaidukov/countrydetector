@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.neotech.countrydetector.PhoneNumberUtils.normalizePhoneNumber;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -14,7 +16,7 @@ public class CountryDetectorService {
     private final DataService dataService;
 
     public List<String> getCountries(String phoneNumber) {
-        var phone = phoneNumber.replaceAll("[^\\+0-9]", "");
+        var phone = normalizePhoneNumber(phoneNumber);
         if (isNorthAmericanPhoneNumber(phone)) {
             return getNorthAmericanCountries(phone);
         } else {
